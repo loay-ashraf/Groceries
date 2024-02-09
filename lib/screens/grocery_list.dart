@@ -15,7 +15,7 @@ class GroceryList extends StatefulWidget {
 }
 
 class _GroceryListState extends State<GroceryList> {
-  List<GroceryItem> _groceryItems = [];
+  List<GroceryItem> _items = [];
   bool _isLoading = false;
   String? _error;
 
@@ -62,7 +62,7 @@ class _GroceryListState extends State<GroceryList> {
         );
       }
       setState(() {
-        _groceryItems = loadedItems;
+        _items = loadedItems;
         _isLoading = false;
       });
     } catch (error) {
@@ -82,15 +82,15 @@ class _GroceryListState extends State<GroceryList> {
 
     if (newItem != null) {
       setState(() {
-        _groceryItems.add(newItem);
+        _items.add(newItem);
       });
     }
   }
 
   void _removeItem(GroceryItem item) async {
-    final index = _groceryItems.indexOf(item);
+    final index = _items.indexOf(item);
     setState(() {
-      _groceryItems.remove(item);
+      _items.remove(item);
     });
 
     try {
@@ -102,7 +102,7 @@ class _GroceryListState extends State<GroceryList> {
 
       if (response.statusCode >= 400) {
         setState(() {
-          _groceryItems.insert(index, item);
+          _items.insert(index, item);
         });
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -150,23 +150,23 @@ class _GroceryListState extends State<GroceryList> {
           ],
         ),
       );
-    } else if (_groceryItems.isNotEmpty) {
+    } else if (_items.isNotEmpty) {
       content = ListView.builder(
-        itemCount: _groceryItems.length,
+        itemCount: _items.length,
         itemBuilder: (ctx, index) => Dismissible(
           onDismissed: (direction) {
-            _removeItem(_groceryItems[index]);
+            _removeItem(_items[index]);
           },
-          key: ValueKey(_groceryItems[index].id),
+          key: ValueKey(_items[index].id),
           child: ListTile(
-            title: Text(_groceryItems[index].name),
+            title: Text(_items[index].name),
             leading: Container(
               width: 24,
               height: 24,
-              color: _groceryItems[index].category.color,
+              color: _items[index].category.color,
             ),
             trailing: Text(
-              _groceryItems[index].quantity.toString(),
+              _items[index].quantity.toString(),
             ),
           ),
         ),
