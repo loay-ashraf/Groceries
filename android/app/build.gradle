@@ -23,7 +23,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.example.shopping_list"
+    namespace "com.loay.groceries"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
